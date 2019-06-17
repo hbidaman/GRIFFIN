@@ -44,7 +44,8 @@ class G4AssemblyVolume;
 class DetectionSystemPlastics
 {
 public:
-    DetectionSystemPlastics(G4double length, G4double height, G4double width);
+   // DetectionSystemPlastics(G4double length, G4double height, G4double width, G4int material);
+    DetectionSystemPlastics(G4double thickness, G4int material);
     ~DetectionSystemPlastics();
 
     G4int Build();

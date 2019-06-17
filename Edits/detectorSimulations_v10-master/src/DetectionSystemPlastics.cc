@@ -26,7 +26,8 @@
 
 #include <string>
 
-DetectionSystemPlastics::DetectionSystemPlastics(G4double length, G4double height, G4double width):
+//DetectionSystemPlastics::DetectionSystemPlastics(G4double length, G4double height, G4double width, G4int material):
+DetectionSystemPlastics::DetectionSystemPlastics(G4double thickness, G4int material):
     // LogicalVolumes
     fPlasticLog(0)
  //   fTestcanAlumCasingLog(0),
@@ -34,11 +35,16 @@ DetectionSystemPlastics::DetectionSystemPlastics(G4double length, G4double heigh
    // fTestcanQuartzWindowLog(0)
 {
     // can properties
-    fScintillatorLength        = length;
-    fScintillatorHeight        = height;
-    fScintillatorWidth         = width;
+    fScintillatorLength        = 6.*cm;
+    fScintillatorHeight        = 6.*cm;
+    fScintillatorWidth         = thickness;
    
-    fPlasticMaterial = "Plastic Scintillator";
+   if(material == 1)  fPlasticMaterial = "BC408";
+	else if (material == 2) fPlasticMaterial = "Deuterium";
+	else if (material == 3) fPlasticMaterial = "H";
+	else if (material == 4) fPlasticMaterial = "C";
+	else G4cout<< "Material Unknown" << G4endl;
+
 
 /*    fScintillatorLength        = length;
     fAlumCanThickness          = 1.0*mm;
@@ -103,6 +109,9 @@ G4cout << "Calling Build PLastics" << G4endl;
         G4cout << " ----> Material " << fPlasticMaterial << " not found, cannot build! " << G4endl;
         return 0;
     }
+      else {
+G4cout << plasticG4material->GetName() << "is the name of the detector material" << G4endl;
+}
 
 G4Box * box = new G4Box("Plastic Detector", fScintillatorLength, fScintillatorHeight, fScintillatorWidth);
    move = G4ThreeVector(50., 50., 50.);
@@ -117,90 +126,19 @@ G4Box * box = new G4Box("Plastic Detector", fScintillatorLength, fScintillatorHe
     }
     fAssemblyPlastics->AddPlacedVolume(fPlasticLog, move, rotate);
 
-/*   G4ThreeVector move, direction;
-    G4RotationMatrix* rotate;
-
-    G4Material* canG4material = G4Material::GetMaterial(fCanMaterial);
-    if( !canG4material ) {
-        G4cout << " ----> Material " << fCanMaterial << " not found, cannot build! " << G4endl;
-        return 0;
-    }
-
-    G4Material* liquidG4material = G4Material::GetMaterial(fLiquidMaterial);
-    if( !liquidG4material ) {
-        G4cout << " ----> Material " << fLiquidMaterial << " not found, cannot build! " << G4endl;
-        return 0;
-    }
-
-    G4Material* quartzG4material = G4Material::GetMaterial(fQuartzMaterial);
-    if(!quartzG4material ) {
-        G4cout << " ----> Material " << fQuartzMaterial << " not found, cannot build! " << G4endl;
-        return 0;
-    }
-
-    // building the aluminum can
-    G4double cutExtra = 10.0*cm;
-    G4Tubs* cut = new G4Tubs("cutting volume", fScintillatorInnerRadius, fScintillatorOuterRadius, fScintillatorLength/2.0 + cutExtra, fStartPhi, fEndPhi);
-    G4Tubs* can = new G4Tubs("can volume before cut", fScintillatorInnerRadius, fScintillatorOuterRadius + fAlumCanThickness, fScintillatorLength/2.0 + fAlumCanThickness/2.0, fStartPhi, fEndPhi);
-    
-    move = G4ThreeVector(0., 0., -0.5*fAlumCanThickness - cutExtra);
-    rotate = new G4RotationMatrix;
-    G4SubtractionSolid* testcanAlumCasing = new G4SubtractionSolid("testcanAlumCan", can, cut, rotate, move);
-
-    // building the scintillator
-    G4Tubs* testcanScintillator = new G4Tubs("testcanScintillator", fScintillatorInnerRadius, fScintillatorOuterRadius, fScintillatorLength/2.0, fStartPhi, fEndPhi);
-
-    // building the quartz window
-    G4Tubs* testcanQuartzWindow = new G4Tubs("testcanQuartzWindow", fScintillatorInnerRadius, fQuartzRadius, fQuartzThickness/2.0, fStartPhi, fEndPhi);
-
-    // Set visualization attributes
-    G4VisAttributes* canVisAtt = new G4VisAttributes(fGreyColour);
-    canVisAtt->SetVisibility(true);
-    G4VisAttributes* liquidVisAtt = new G4VisAttributes(fLiquidColour);
-    liquidVisAtt->SetVisibility(true);
-    G4VisAttributes* quartzVisAtt = new G4VisAttributes(fQuartzColour);
-    quartzVisAtt->SetVisibility(true);
-    //quartzVisAtt->SetForceWireframe(true);
-    
-    // Define rotation and movement objects for aluminum can
-    direction 	  = G4ThreeVector(0., 0., 1.);
-    move          = G4ThreeVector(0., 0., -1.0*fScintillatorLength/2.0 + fAlumCanThickness/2.0 );
-    rotate = new G4RotationMatrix;
-    
-    //logical volume for aluminum can
-    if(fTestcanAlumCasingLog == NULL ) {
-        fTestcanAlumCasingLog = new G4LogicalVolume(testcanAlumCasing, canG4material, "testcanAlumCasingLog", 0, 0, 0);
-        fTestcanAlumCasingLog->SetVisAttributes(canVisAtt);
-    }
-    fAssemblyTestcan->AddPlacedVolume(fTestcanAlumCasingLog, move, rotate);
-    
-    // Define rotation and movement objects for scintillator
-    direction 	  = G4ThreeVector(0., 0., 1.);
-    move          = G4ThreeVector(0., 0., -1.0*fScintillatorLength/2.0);
-    rotate = new G4RotationMatrix;
-    
-    // logical volume for scintillator
-    if(fTestcanScintillatorLog == NULL) {
-        fTestcanScintillatorLog = new G4LogicalVolume(testcanScintillator, liquidG4material, "testcanScintillatorLog", 0, 0, 0);
-        fTestcanScintillatorLog->SetVisAttributes(liquidVisAtt);
-    }
-    fAssemblyTestcan->AddPlacedVolume(fTestcanScintillatorLog, move, rotate);
-
-    // Define rotation and movement objects for quartzWindow
-    direction 	  = G4ThreeVector(0., 0., 1.);
-    move         = G4ThreeVector(0., 0., -1.0*fQuartzThickness/2.0 - 1.0*fScintillatorLength);
-    rotate = new G4RotationMatrix;
-    
-    // logical volume for quartz window
-    if(fTestcanQuartzWindowLog == NULL) {
-        fTestcanQuartzWindowLog = new G4LogicalVolume(testcanQuartzWindow, quartzG4material, "testcanQuartzWindowLog", 0, 0, 0);
-        fTestcanQuartzWindowLog->SetVisAttributes(quartzVisAtt);
-    }
-    fAssemblyTestcan->AddPlacedVolume(fTestcanQuartzWindowLog, move, rotate);
- */  
 ////////Scintillation Properties ////////
+// Havent included appropriate libraries yet...
+
+G4MaterialPropertiesTable * MPT1 = new G4MaterialPropertiesTable();
+//Based on BC408 data
+G4double photonEnergy[4] = {1.*keV, 0.1*MeV, 1.*MeV, 10.*MeV};
+G4double RIndex1[4] = {1.58, 1.58, 1.58, 1.58};
+
+const G4int nEntries = sizeof(photonEnergy)/sizeof(G4double);
+assert(sizeof(RIndex1) == sizeof(photonEnergy));
 
 
+//G4double absorption[4] = 
 
 
  

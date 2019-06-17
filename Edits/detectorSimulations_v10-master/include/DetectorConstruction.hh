@@ -56,6 +56,7 @@ class DetectionSystemDescant;
 class ApparatusDescantStructure;
 class ApparatusLayeredTarget;
 class DetectionSystemDescant;
+class DetectionSystemPlastics;
 
 class DetectionSystemSceptar;
 class DetectionSystemSpice;

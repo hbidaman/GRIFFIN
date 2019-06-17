@@ -58,7 +58,7 @@
 
 /DetSys/det/addDescant 56
 #/DetSys/det/addDescantCart 0 0 0 0
-/DetSys/det/addPlastics 6 6 2
+/DetSys/det/addPlastics 2 1 0
 
 ###################### LaBr3 DETECTOR PROPERTIES ########################################
 #addLanthanumBromide #_of_dets radial_pos_in_cm null

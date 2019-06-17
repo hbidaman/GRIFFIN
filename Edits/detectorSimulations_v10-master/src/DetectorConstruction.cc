@@ -779,11 +779,10 @@ void DetectorConstruction::AddDetectionSystemPlastics(G4ThreeVector input) {
 		Construct();
 	}
 
-	G4double length = G4double(input.x())*cm;
-	G4double height = G4double(input.y())*cm;
-	G4double width = G4double(input.z())*cm;
-
-	DetectionSystemPlastics * pDetectionSystemPlastics = new DetectionSystemPlastics(length, height, width);
+	G4double thickness = G4double(input.x())*cm;
+	G4int material  = G4double(input.y());
+	
+	DetectionSystemPlastics * pDetectionSystemPlastics = new DetectionSystemPlastics(thickness, material);
 	pDetectionSystemPlastics->Build();
 	pDetectionSystemPlastics->PlaceDetector(fLogicWorld);
 }

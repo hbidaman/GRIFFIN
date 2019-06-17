@@ -133,7 +133,6 @@ private:
 
 	G4UIcmdWith3Vector*         fAddDetectionSystemPlasticsCmd;
 
-
 	G4UIcmdWithAnInteger*       fAddDetectionSystemSceptarCmd;
 	G4UIcmdWithAnInteger*       fAddDetectionSystemGriffinForwardCmd;
 	G4UIcmdWithAnInteger*       fAddDetectionSystemGriffinForwardDetectorCmd;
