@@ -20,6 +20,11 @@
 #include "G4VisAttributes.hh"
 #include "G4Colour.hh"
 
+//// Added ///  G4MaterialTable.hh is alreadu elsewhere
+//#include "G4OpticalSurface.hh"
+//#include "G4LogicalSkinSurface.hh"
+////////
+
 #include "DetectionSystemPlastics.hh"
 
 #include "G4SystemOfUnits.hh"
@@ -126,19 +131,43 @@ G4Box * box = new G4Box("Plastic Detector", fScintillatorLength, fScintillatorHe
     }
     fAssemblyPlastics->AddPlacedVolume(fPlasticLog, move, rotate);
 
-////////Scintillation Properties ////////
+////////Scintillation Properties ////////  --------- Might have to be put before the material is constructed
 // Havent included appropriate libraries yet...
 
-G4MaterialPropertiesTable * MPT1 = new G4MaterialPropertiesTable();
+//G4MaterialPropertiesTable * MPT1 = new G4MaterialPropertiesTable();
+
 //Based on BC408 data
-G4double photonEnergy[4] = {1.*keV, 0.1*MeV, 1.*MeV, 10.*MeV};
+G4double scintEnergy[4] = {1.*keV, 0.1*MeV, 1.*MeV, 10.*MeV}; //Joey has listed as photonEnergy
 G4double RIndex1[4] = {1.58, 1.58, 1.58, 1.58};
 
-const G4int nEntries = sizeof(photonEnergy)/sizeof(G4double);
-assert(sizeof(RIndex1) == sizeof(photonEnergy));
+const G4int nEntries = sizeof(scintEnergy)/sizeof(G4double);
+
+assert(sizeof(RIndex1) == sizeof(scintEnergy));
 
 
-//G4double absorption[4] = 
+G4double absorption[4] = {380.*cm, 380.*cm, 380.*cm, 380.*cm}; ///light attenuation
+assert(sizeof(absorption) == sizeof(scintEnergy));
+
+G4double scint[4] = {0.1, 1., 10., 100.}; /// no idea, currently a place holder /// Joey has as emission spectra
+assert(sizeof(scint) == sizeof(scintEnergy));
+
+G4MaterialPropertiesTable * scintillatorMPT = new G4MaterialPropertiesTable();
+
+scintillatorMPT->AddProperty("FastComponent", scintEnergy, scint, nEntries)->SetSpline(true); //no idea
+scintillatorMPT->AddProperty("SlowComponent", scintEnergy, scint, nEntries)->SetSpline(true); //n idea
+scintillatorMPT->AddProperty("RIndex", scintEnergy, RIndex1, nEntries)->SetSpline(true);  //refractive index doesnt change with energy
+scintillatorMPT->AddProperty("AbsLength", scintEnergy, absorption, nEntries)->SetSpline(true); //absorption length doesnt change with energy
+scintillatorMPT->AddConstProperty("ScintillationYield", 10000./MeV); //Scintillation Efficiency
+scintillatorMPT->AddConstProperty("ResolutionScale", 1.0); //No idea, might be based on PMT
+scintillatorMPT->AddConstProperty("FastTimeConst", 2.1*ns); //only one decay constant given
+scintillatorMPT->AddConstProperty("SlowTimeConst", 2.1*ns); //only one decay constant given
+scintillatorMPT->AddConstProperty("YieldRatio", 1.0); //No idea
+plasticG4material->SetMaterialPropertiesTable(scintillatorMPT);
+
+
+
+//////Optical Surface - Mylar wrapping? //////
+
 
 
  

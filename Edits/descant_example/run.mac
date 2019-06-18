@@ -56,7 +56,7 @@
 #/DetSys/det/SetCustomDeadLayer 16 16 0
 #/DetSys/det/addGriffinCustomDetector 16
 
-/DetSys/det/addDescant 56
+/DetSys/det/addDescant 70
 #/DetSys/det/addDescantCart 0 0 0 0
 /DetSys/det/addPlastics 2 1 0
 
