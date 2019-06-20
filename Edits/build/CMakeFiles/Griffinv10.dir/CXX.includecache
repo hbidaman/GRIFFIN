@@ -63,6 +63,8 @@ G4VisAttributes.hh
 /helioshome/hbidaman/Geant/GRIFFIN/Edits/detectorSimulations_v10-master/src/G4VisAttributes.hh
 G4Colour.hh
 /helioshome/hbidaman/Geant/GRIFFIN/Edits/detectorSimulations_v10-master/src/G4Colour.hh
+G4OpticalSurface.hh
+/helioshome/hbidaman/Geant/GRIFFIN/Edits/detectorSimulations_v10-master/src/G4OpticalSurface.hh
 DetectionSystemPlastics.hh
 /helioshome/hbidaman/Geant/GRIFFIN/Edits/detectorSimulations_v10-master/src/DetectionSystemPlastics.hh
 G4SystemOfUnits.hh
@@ -516,6 +518,14 @@ globals.hh
 CLHEP/Geometry/Normal3D.h
 -
 
+/opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4OpticalSurface.hh
+G4Types.hh
+/opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4Types.hh
+G4Physics2DVector.hh
+/opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4Physics2DVector.hh
+G4SurfaceProperty.hh
+/opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4SurfaceProperty.hh
+
 /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4OrderedTable.hh
 globals.hh
 /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/globals.hh
@@ -537,6 +547,24 @@ G4VPhysicalVolume.hh
 /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4VPhysicalVolume.hh
 G4VStoreNotifier.hh
 /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4VStoreNotifier.hh
+
+/opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4Physics2DVector.hh
+iostream
+-
+fstream
+-
+vector
+-
+globals.hh
+/opt/cern/geant/geant4.10.02.p01-install/include/Geant4/globals.hh
+G4ios.hh
+/opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4ios.hh
+G4PhysicsVectorType.hh
+/opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4PhysicsVectorType.hh
+G4Physics2DVector.icc
+/opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4Physics2DVector.icc
+
+/opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4Physics2DVector.icc
 
 /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4PhysicsOrderedFreeVector.hh
 G4PhysicsVector.hh
@@ -679,6 +707,14 @@ G4Transform3D.hh
 /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4Transform3D.hh
 G4AffineTransform.hh
 /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4AffineTransform.hh
+
+/opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4SurfaceProperty.hh
+vector
+-
+G4Types.hh
+/opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4Types.hh
+G4String.hh
+/opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4String.hh
 
 /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4SystemOfUnits.hh
 CLHEP/Units/SystemOfUnits.h

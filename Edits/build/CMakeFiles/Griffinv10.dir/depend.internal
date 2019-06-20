@@ -2948,9 +2948,12 @@ CMakeFiles/Griffinv10.dir/src/DetectionSystemPlastics.cc.o
  /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4MaterialPropertyVector.hh
  /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4MaterialTable.hh
  /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4Normal3D.hh
+ /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4OpticalSurface.hh
  /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4OrderedTable.hh
  /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4PVPlacement.hh
  /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4PhysicalVolumeStore.hh
+ /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4Physics2DVector.hh
+ /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4Physics2DVector.icc
  /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4PhysicsOrderedFreeVector.hh
  /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4PhysicsOrderedFreeVector.icc
  /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4PhysicsVector.hh
@@ -2969,6 +2972,7 @@ CMakeFiles/Griffinv10.dir/src/DetectionSystemPlastics.cc.o
  /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4String.hh
  /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4String.icc
  /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4SubtractionSolid.hh
+ /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4SurfaceProperty.hh
  /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4SystemOfUnits.hh
  /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4Threading.hh
  /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4ThreeVector.hh

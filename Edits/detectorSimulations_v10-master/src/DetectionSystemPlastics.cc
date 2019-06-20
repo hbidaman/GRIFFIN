@@ -21,7 +21,7 @@
 #include "G4Colour.hh"
 
 //// Added ///  G4MaterialTable.hh is alreadu elsewhere
-//#include "G4OpticalSurface.hh"
+#include "G4OpticalSurface.hh"
 //#include "G4LogicalSkinSurface.hh"
 ////////
 
@@ -137,36 +137,46 @@ G4Box * box = new G4Box("Plastic Detector", fScintillatorLength, fScintillatorHe
 //G4MaterialPropertiesTable * MPT1 = new G4MaterialPropertiesTable();
 
 //Based on BC408 data
-G4double scintEnergy[4] = {1.*keV, 0.1*MeV, 1.*MeV, 10.*MeV}; //Joey has listed as photonEnergy
-G4double RIndex1[4] = {1.58, 1.58, 1.58, 1.58};
+//G4double photonEnergy[4] = {1.*keV, 0.1*MeV, 1.*MeV, 10.*MeV}; //Joey has listed as photonEnergy
+const G4int num = 11;
+G4double photonEnergy[num] = {2.38*eV, 2.48*eV, 2.58*eV, 2.70*eV, 2.76*eV, 2.82*eV, 2.88*eV, 2.95*eV, 3.1*eV, 3.26*eV, 3.44*eV}; //BC408 emission spectra & corresponding energies
 
-const G4int nEntries = sizeof(scintEnergy)/sizeof(G4double);
+G4double RIndex1[num] = {1.58, 1.58, 1.58, 1.58, 1.58, 1.58, 1.58, 1.58, 1.58, 1.58, 1.58};
 
-assert(sizeof(RIndex1) == sizeof(scintEnergy));
+const G4int nEntries = sizeof(photonEnergy)/sizeof(G4double);
 
+assert(sizeof(RIndex1) == sizeof(photonEnergy));
 
-G4double absorption[4] = {380.*cm, 380.*cm, 380.*cm, 380.*cm}; ///light attenuation
-assert(sizeof(absorption) == sizeof(scintEnergy));
+G4double absorption[num] = {380.*cm, 380.*cm, 380.*cm, 380.*cm, 380.*cm, 380.*cm, 380.*cm, 380.*cm, 380.*cm, 380.*cm, 380.*cm}; ///light attenuation
+assert(sizeof(absorption) == sizeof(photonEnergy));
 
-G4double scint[4] = {0.1, 1., 10., 100.}; /// no idea, currently a place holder /// Joey has as emission spectra
-assert(sizeof(scint) == sizeof(scintEnergy));
+//G4double scint[4] = {0.1, 1., 10., 100.}; ///// Joey has as emission spectra
+G4double scint[num] = {3., 8., 18., 43., 55., 80., 100., 80., 20., 7., 3. }; ///// Based off emission spectra for BC408
+assert(sizeof(scint) == sizeof(photonEnergy));
 
 G4MaterialPropertiesTable * scintillatorMPT = new G4MaterialPropertiesTable();
 
-scintillatorMPT->AddProperty("FastComponent", scintEnergy, scint, nEntries)->SetSpline(true); //no idea
-scintillatorMPT->AddProperty("SlowComponent", scintEnergy, scint, nEntries)->SetSpline(true); //n idea
-scintillatorMPT->AddProperty("RIndex", scintEnergy, RIndex1, nEntries)->SetSpline(true);  //refractive index doesnt change with energy
-scintillatorMPT->AddProperty("AbsLength", scintEnergy, absorption, nEntries)->SetSpline(true); //absorption length doesnt change with energy
-scintillatorMPT->AddConstProperty("ScintillationYield", 10000./MeV); //Scintillation Efficiency
-scintillatorMPT->AddConstProperty("ResolutionScale", 1.0); //No idea, might be based on PMT
-scintillatorMPT->AddConstProperty("FastTimeConst", 2.1*ns); //only one decay constant given
-scintillatorMPT->AddConstProperty("SlowTimeConst", 2.1*ns); //only one decay constant given
-scintillatorMPT->AddConstProperty("YieldRatio", 1.0); //No idea
+scintillatorMPT->AddProperty("FASTCOMPONENT", photonEnergy, scint, nEntries)->SetSpline(true); // BC408 emission spectra
+scintillatorMPT->AddProperty("SLOWCOMPONENT", photonEnergy, scint, nEntries)->SetSpline(true); // BC408 emission spectra
+scintillatorMPT->AddProperty("RINDEX", photonEnergy, RIndex1, nEntries);  //refractive index doesnt change with energy
+scintillatorMPT->AddProperty("ABSLENGTH", photonEnergy, absorption, nEntries); //absorption length doesnt change with energy
+scintillatorMPT->AddConstProperty("SCINTILLATIONYIELD", 10000./MeV); //Scintillation Efficiency
+scintillatorMPT->AddConstProperty("RESOLUTIONSCALE", 1.0); //No idea, might be based on PMT
+scintillatorMPT->AddConstProperty("FASTTIMECONSTANT", 2.1*ns); //only one decay constant given
+scintillatorMPT->AddConstProperty("SLOWTIMECONSTANT", 2.1*ns); //only one decay constant given
+scintillatorMPT->AddConstProperty("YIELDRATIO", 1.0); //No idea
 plasticG4material->SetMaterialPropertiesTable(scintillatorMPT);
 
 
 
 //////Optical Surface - Mylar wrapping? //////
+G4OpticalSurface * ScintWrapper = new G4OpticalSurface("wrapper");
+ScintWrapper->SetModel(glisur);  // no idea
+ScintWrapper->SetFinish(polished);  // no idea // can add if its painted
+ScintWrapper->SetType(dielectric_metal);  // no idea  //represents aluminium?
+ScintWrapper->SetPolish(0.9);  // no idea
+ScintWrapper->SetMaterialPropertiesTable(scintillatorMPT);
+
 
 
 

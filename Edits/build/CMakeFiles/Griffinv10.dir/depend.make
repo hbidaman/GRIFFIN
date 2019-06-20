@@ -2947,9 +2947,12 @@ CMakeFiles/Griffinv10.dir/src/DetectionSystemPlastics.cc.o: /opt/cern/geant/gean
 CMakeFiles/Griffinv10.dir/src/DetectionSystemPlastics.cc.o: /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4MaterialPropertyVector.hh
 CMakeFiles/Griffinv10.dir/src/DetectionSystemPlastics.cc.o: /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4MaterialTable.hh
 CMakeFiles/Griffinv10.dir/src/DetectionSystemPlastics.cc.o: /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4Normal3D.hh
+CMakeFiles/Griffinv10.dir/src/DetectionSystemPlastics.cc.o: /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4OpticalSurface.hh
 CMakeFiles/Griffinv10.dir/src/DetectionSystemPlastics.cc.o: /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4OrderedTable.hh
 CMakeFiles/Griffinv10.dir/src/DetectionSystemPlastics.cc.o: /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4PVPlacement.hh
 CMakeFiles/Griffinv10.dir/src/DetectionSystemPlastics.cc.o: /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4PhysicalVolumeStore.hh
+CMakeFiles/Griffinv10.dir/src/DetectionSystemPlastics.cc.o: /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4Physics2DVector.hh
+CMakeFiles/Griffinv10.dir/src/DetectionSystemPlastics.cc.o: /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4Physics2DVector.icc
 CMakeFiles/Griffinv10.dir/src/DetectionSystemPlastics.cc.o: /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4PhysicsOrderedFreeVector.hh
 CMakeFiles/Griffinv10.dir/src/DetectionSystemPlastics.cc.o: /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4PhysicsOrderedFreeVector.icc
 CMakeFiles/Griffinv10.dir/src/DetectionSystemPlastics.cc.o: /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4PhysicsVector.hh
@@ -2968,6 +2971,7 @@ CMakeFiles/Griffinv10.dir/src/DetectionSystemPlastics.cc.o: /opt/cern/geant/gean
 CMakeFiles/Griffinv10.dir/src/DetectionSystemPlastics.cc.o: /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4String.hh
 CMakeFiles/Griffinv10.dir/src/DetectionSystemPlastics.cc.o: /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4String.icc
 CMakeFiles/Griffinv10.dir/src/DetectionSystemPlastics.cc.o: /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4SubtractionSolid.hh
+CMakeFiles/Griffinv10.dir/src/DetectionSystemPlastics.cc.o: /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4SurfaceProperty.hh
 CMakeFiles/Griffinv10.dir/src/DetectionSystemPlastics.cc.o: /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4SystemOfUnits.hh
 CMakeFiles/Griffinv10.dir/src/DetectionSystemPlastics.cc.o: /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4Threading.hh
 CMakeFiles/Griffinv10.dir/src/DetectionSystemPlastics.cc.o: /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4ThreeVector.hh
