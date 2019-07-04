@@ -68,10 +68,14 @@ int main(int argc,char** argv)
 
     // Construct the default run manager
 #ifdef G4MULTITHREADED
-	 G4cout<<"RUNNING MULTITHREADED"<<G4endl;
+/*	 G4cout<<"RUNNING MULTITHREADED"<<G4endl;
 	 G4int nThreads = 2;
 	 G4MTRunManager* runManager = new G4MTRunManager;
 	 runManager->SetNumberOfThreads(nThreads);
+*/
+	 G4cout<<"NOT RUNNING MULTITHREADED"<<G4endl;
+	 G4RunManager* runManager = new G4RunManager;
+
 #else
 	 G4cout<<"NOT RUNNING MULTITHREADED"<<G4endl;
 	 G4RunManager* runManager = new G4RunManager;

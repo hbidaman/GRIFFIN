@@ -22,6 +22,7 @@
 
 //// Added ///  G4MaterialTable.hh is alreadu elsewhere
 #include "G4OpticalSurface.hh"
+#include "G4OpticalPhysics.hh"
 //#include "G4LogicalSkinSurface.hh"
 ////////
 
@@ -70,8 +71,8 @@ DetectionSystemPlastics::DetectionSystemPlastics(G4double thickness, G4int mater
 */ 
 G4cout << "Calling Constructor" << G4endl;
 }
-
-
+/////
+///////
 DetectionSystemPlastics::~DetectionSystemPlastics() {
     // LogicalVolumes
  /*   delete fTestcanAlumCasingLog;
@@ -82,8 +83,8 @@ delete fPlasticLog;
 G4cout << "Calling Destructor" << G4endl;
 
 }
-
-
+////////
+/////////
 G4int DetectionSystemPlastics::Build() {
     fAssemblyPlastics = new G4AssemblyVolume(); 
 G4cout << "Calling Build function" << G4endl;
@@ -91,7 +92,8 @@ G4cout << "Calling Build function" << G4endl;
 
     return 1;
 }
-
+////////
+///////
 G4int DetectionSystemPlastics::PlaceDetector(G4LogicalVolume* expHallLog) {
     G4RotationMatrix * rotate = new G4RotationMatrix;
     G4ThreeVector move = G4ThreeVector(0., 0., 0.);
@@ -100,7 +102,8 @@ G4int DetectionSystemPlastics::PlaceDetector(G4LogicalVolume* expHallLog) {
 G4cout << "Calling place detector" << G4endl;
     return 1;
 }
-
+///////////
+/////////
 G4int DetectionSystemPlastics::BuildPlastics() {
  
 G4cout << "Calling Build PLastics" << G4endl;
@@ -117,6 +120,104 @@ G4cout << "Calling Build PLastics" << G4endl;
       else {
 G4cout << plasticG4material->GetName() << "is the name of the detector material" << G4endl;
 }
+/*
+G4Box * box = new G4Box("Plastic Detector", fScintillatorLength, fScintillatorHeight, fScintillatorWidth);
+   move = G4ThreeVector(50., 50., 50.);
+    rotate = new G4RotationMatrix;
+    direction 	  = G4ThreeVector(1., 1., 1.);
+   
+    
+    //logical volume for scintillator can
+    if(fPlasticLog == NULL ) {
+        fPlasticLog = new G4LogicalVolume(box, plasticG4material, "test", 0, 0, 0);
+        //fTestcanAlumCasingLog->SetVisAttributes(canVisAtt);
+    }
+    fAssemblyPlastics->AddPlacedVolume(fPlasticLog, move, rotate);
+*/
+
+ ////////Scintillation Properties ////////  --------- Might have to be put before the material is constructed
+// Havent included appropriate libraries yet...
+//Based on BC408 data
+G4MaterialPropertiesTable * scintillatorMPT = new G4MaterialPropertiesTable();
+
+const G4int num = 12;
+
+G4double photonEnergy[num] = {1.7*eV, 2.38*eV, 2.48*eV, 2.58*eV, 2.70*eV, 2.76*eV, 2.82*eV, 2.91*eV, 2.95*eV, 3.1*eV, 3.26*eV, 3.44*eV}; //BC408 emission spectra & corresponding energies
+
+G4double RIndex1[num] = {1.58, 1.58, 1.58, 1.58, 1.58, 1.58, 1.58, 1.58, 1.58, 1.58, 1.58, 1.58};
+
+const G4int nEntries = sizeof(photonEnergy)/sizeof(G4double);
+////Can potentially comment this all out because i dont know what e yield should be.
+//If I dont specify ny own scintillation yield for p,d,t,a,C then they all default to the electron.. Might be a good test...
+/*
+const G4int num2 = 4;
+G4double e_test[num2] = {1.*keV, 0.1*MeV, 1.*MeV, 10.*MeV};
+G4double p_test[num2] = {1.*keV, 0.1*MeV, 1.*MeV, 10.*MeV};
+G4double d_test[num2] = {1.*keV, 0.1*MeV, 1.*MeV, 10.*MeV};
+G4double t_test[num2] = {1.*keV, 0.1*MeV, 1.*MeV, 10.*MeV};
+G4double a_test[num2] = {1.*keV, 0.1*MeV, 1.*MeV, 10.*MeV};
+G4double C_test[num2] = {1.*keV, 0.1*MeV, 1.*MeV, 10.*MeV};
+G4double num_test[num2] = {10., 1000., 10000., 100000.};
+assert(sizeof(e_test) == sizeof(num_test));
+assert(sizeof(p_test) == sizeof(num_test));
+assert(sizeof(d_test) == sizeof(num_test));
+assert(sizeof(t_test) == sizeof(num_test));
+assert(sizeof(a_test) == sizeof(num_test));
+assert(sizeof(C_test) == sizeof(num_test));
+
+scintillatorMPT->AddProperty("ELECTRONSCINTILLATIONYIELD", e_test, num_test, num2);
+scintillatorMPT->AddProperty("PROTONSCINTILLATIONYIELD", p_test, num_test, num2);
+scintillatorMPT->AddProperty("DEUTERONSCINTILLATIONYIELD", d_test, num_test, num2);
+scintillatorMPT->AddProperty("TRITONSCINTILLATIONYIELD", t_test, num_test, num2);
+scintillatorMPT->AddProperty("ALPHASCINTILLATIONYIELD", a_test, num_test, num2);
+scintillatorMPT->AddProperty("IONSCINTILLATIONYIELD", C_test, num_test, num2);
+///////
+//
+*/
+assert(sizeof(RIndex1) == sizeof(photonEnergy));
+
+G4double absorption[num] = {380.*cm, 380*cm, 380.*cm, 380.*cm, 380.*cm, 380.*cm, 380.*cm, 380.*cm, 380.*cm, 380.*cm, 380.*cm, 380.*cm}; ///light attenuation
+assert(sizeof(absorption) == sizeof(photonEnergy));
+
+//G4double scint[4] = {0.1, 1., 10., 100.}; ///// Joey has as emission spectra
+G4double scint[num] = {3., 3., 8., 18., 43., 55., 80., 100., 80., 20., 7., 3. }; ///// Based off emission spectra for BC408
+assert(sizeof(scint) == sizeof(photonEnergy));
+
+//G4MaterialPropertiesTable * scintillatorMPT = new G4MaterialPropertiesTable();
+
+scintillatorMPT->AddProperty("FASTCOMPONENT", photonEnergy, scint, nEntries)->SetSpline(true); // BC408 emission spectra
+scintillatorMPT->AddProperty("SLOWCOMPONENT", photonEnergy, scint, nEntries)->SetSpline(true); // BC408 emission spectra
+scintillatorMPT->AddProperty("RINDEX", photonEnergy, RIndex1, nEntries);  //refractive index doesnt change with energy
+//note if photon is created outside of energy range it will have no index of refraction
+scintillatorMPT->AddProperty("ABSLENGTH", photonEnergy, absorption, nEntries); //absorption length doesnt change with energy - examples showing it can...
+scintillatorMPT->AddConstProperty("SCINTILLATIONYIELD", 10000./MeV); //Scintillation Efficiency - characteristic light yield
+scintillatorMPT->AddConstProperty("RESOLUTIONSCALE", 1.0); // broadens the statistical distribution of generated photons
+scintillatorMPT->AddConstProperty("FASTTIMECONSTANT", 2.1*ns); //only one decay constant given
+scintillatorMPT->AddConstProperty("SLOWTIMECONSTANT", 2.1*ns); //only one decay constant given - triplet-triplet annihilation 
+scintillatorMPT->AddConstProperty("YIELDRATIO", 1.0); //The relative strength of the fast component as a fraction of total scintillation yield is given by the YIELDRATIO.
+
+G4OpticalPhysics * opticalPhysics = new G4OpticalPhysics();
+opticalPhysics->SetFiniteRiseTime(true);
+scintillatorMPT->AddConstProperty("FASTSCINTILLATIONRISETIME", 0.7*ns); //default rise time is 0ns, have to set manually
+scintillatorMPT->AddConstProperty("SLOWSCINTILLATIONRISETIME", 0.7*ns); //default rise time is 0ns, have to set manually
+plasticG4material->SetMaterialPropertiesTable(scintillatorMPT);
+
+//////Optical Surface - Mylar wrapping? //////
+G4OpticalSurface * ScintWrapper = new G4OpticalSurface("wrapper");
+ScintWrapper->SetModel(glisur);  // no idea
+//polished refers to the wrapping? -> only reflection or absorption, no refraction
+//RINDEX is only for polishedback painted
+//G4LogicalBorderSurface
+ScintWrapper->SetFinish(polishedfrontpainted);  // no idea // can add if its painted
+//polishedteflonair
+//dielectic_LUT - ie look up table
+ScintWrapper->SetType(dielectric_dielectric);  // no idea  //represents aluminium?
+ScintWrapper->SetPolish(0.9);  // no idea
+ScintWrapper->SetMaterialPropertiesTable(scintillatorMPT);
+ScintWrapper->DumpInfo();//havent compiled with this yet
+// Can potentially use LookUpTables  -> Learn more about what those are 
+
+
 
 G4Box * box = new G4Box("Plastic Detector", fScintillatorLength, fScintillatorHeight, fScintillatorWidth);
    move = G4ThreeVector(50., 50., 50.);
@@ -130,54 +231,6 @@ G4Box * box = new G4Box("Plastic Detector", fScintillatorLength, fScintillatorHe
         //fTestcanAlumCasingLog->SetVisAttributes(canVisAtt);
     }
     fAssemblyPlastics->AddPlacedVolume(fPlasticLog, move, rotate);
-
-////////Scintillation Properties ////////  --------- Might have to be put before the material is constructed
-// Havent included appropriate libraries yet...
-
-//G4MaterialPropertiesTable * MPT1 = new G4MaterialPropertiesTable();
-
-//Based on BC408 data
-//G4double photonEnergy[4] = {1.*keV, 0.1*MeV, 1.*MeV, 10.*MeV}; //Joey has listed as photonEnergy
-const G4int num = 11;
-G4double photonEnergy[num] = {2.38*eV, 2.48*eV, 2.58*eV, 2.70*eV, 2.76*eV, 2.82*eV, 2.88*eV, 2.95*eV, 3.1*eV, 3.26*eV, 3.44*eV}; //BC408 emission spectra & corresponding energies
-
-G4double RIndex1[num] = {1.58, 1.58, 1.58, 1.58, 1.58, 1.58, 1.58, 1.58, 1.58, 1.58, 1.58};
-
-const G4int nEntries = sizeof(photonEnergy)/sizeof(G4double);
-
-assert(sizeof(RIndex1) == sizeof(photonEnergy));
-
-G4double absorption[num] = {380.*cm, 380.*cm, 380.*cm, 380.*cm, 380.*cm, 380.*cm, 380.*cm, 380.*cm, 380.*cm, 380.*cm, 380.*cm}; ///light attenuation
-assert(sizeof(absorption) == sizeof(photonEnergy));
-
-//G4double scint[4] = {0.1, 1., 10., 100.}; ///// Joey has as emission spectra
-G4double scint[num] = {3., 8., 18., 43., 55., 80., 100., 80., 20., 7., 3. }; ///// Based off emission spectra for BC408
-assert(sizeof(scint) == sizeof(photonEnergy));
-
-G4MaterialPropertiesTable * scintillatorMPT = new G4MaterialPropertiesTable();
-
-scintillatorMPT->AddProperty("FASTCOMPONENT", photonEnergy, scint, nEntries)->SetSpline(true); // BC408 emission spectra
-scintillatorMPT->AddProperty("SLOWCOMPONENT", photonEnergy, scint, nEntries)->SetSpline(true); // BC408 emission spectra
-scintillatorMPT->AddProperty("RINDEX", photonEnergy, RIndex1, nEntries);  //refractive index doesnt change with energy
-scintillatorMPT->AddProperty("ABSLENGTH", photonEnergy, absorption, nEntries); //absorption length doesnt change with energy
-scintillatorMPT->AddConstProperty("SCINTILLATIONYIELD", 10000./MeV); //Scintillation Efficiency
-scintillatorMPT->AddConstProperty("RESOLUTIONSCALE", 1.0); //No idea, might be based on PMT
-scintillatorMPT->AddConstProperty("FASTTIMECONSTANT", 2.1*ns); //only one decay constant given
-scintillatorMPT->AddConstProperty("SLOWTIMECONSTANT", 2.1*ns); //only one decay constant given
-scintillatorMPT->AddConstProperty("YIELDRATIO", 1.0); //No idea
-plasticG4material->SetMaterialPropertiesTable(scintillatorMPT);
-
-
-
-//////Optical Surface - Mylar wrapping? //////
-G4OpticalSurface * ScintWrapper = new G4OpticalSurface("wrapper");
-ScintWrapper->SetModel(glisur);  // no idea
-ScintWrapper->SetFinish(polished);  // no idea // can add if its painted
-ScintWrapper->SetType(dielectric_metal);  // no idea  //represents aluminium?
-ScintWrapper->SetPolish(0.9);  // no idea
-ScintWrapper->SetMaterialPropertiesTable(scintillatorMPT);
-
-
 
 
  

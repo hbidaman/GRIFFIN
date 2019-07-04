@@ -75,6 +75,7 @@
 #include "G4OpAbsorption.hh"
 #include "G4OpRayleigh.hh"
 #include "G4Scintillation.hh"
+#include "G4OpBoundaryProcess.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -200,7 +201,7 @@ void PhysicsList::SelectPhysicsList(const G4String& name)
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
+#include "G4Threading.hh"
 
 void PhysicsList::ConstructOp(G4bool constructOp)
 {
@@ -209,36 +210,46 @@ void PhysicsList::ConstructOp(G4bool constructOp)
     {
         G4cout << "Building Optical Phyiscs... " << G4endl;
         // G4Cerenkov* cerenkovProcess = new G4Cerenkov("Cerenkov");
-
+G4cout << "test 1" << G4endl;
         //   turning on particle-specific scintillation process
         G4Scintillation* scintillationProcess = new G4Scintillation("Scintillation");
-        scintillationProcess->SetScintillationByParticleType(true);
+       // scintillationProcess->SetScintillationByParticleType(true);
+G4cout << "test 2" << G4endl;
 
         G4OpAbsorption* absorptionProcess = new G4OpAbsorption();
         G4OpRayleigh* rayleighScatteringProcess = new G4OpRayleigh();
         //G4OpMieHG* mieHGScatteringProcess = new G4OpMieHG();
-        //G4OpBoundaryProcess* boundaryProcess = new G4OpBoundaryProcess();
+        G4OpBoundaryProcess* boundaryProcess = new G4OpBoundaryProcess();
+G4cout << "test 3" << G4endl;
 
         // Use Birks Correction in the Scintillation process
-        if(!G4Threading::IsWorkerThread())
+ //       if(!G4Threading::IsWorkerThread()) //joeys original
+        if(G4Threading::IsMasterThread())
         {
             G4EmSaturation* emSaturation =
             G4LossTableManager::Instance()->EmSaturation();
             fScintProcess->AddSaturation(emSaturation);
         }
-
+G4cout << "test 4" << G4endl;//changed theParticleIterator to particleIterator
+	//auto theParticleIterator=GetParticleIterator();//added
         theParticleIterator->reset();
         while( (*theParticleIterator)() )
         {
             G4ParticleDefinition* particle = theParticleIterator->value();
             G4ProcessManager* pmanager = particle->GetProcessManager();
             G4String particleName = particle->GetParticleName();
+G4cout << "test 5" << G4endl;
 
             if (scintillationProcess->IsApplicable(*particle)) {
-                pmanager->AddProcess(scintillationProcess);
+G4cout << "test 5.5 "<< scintillationProcess->GetScintillationYieldFactor() << G4endl;
+         
+	        pmanager->AddProcess(scintillationProcess);
+G4cout << "test 5.6" << G4endl;
                 pmanager->SetProcessOrderingToLast(scintillationProcess, idxAtRest);
+G4cout << "test 5.7" << G4endl;
                 pmanager->SetProcessOrderingToLast(scintillationProcess, idxPostStep);
             }
+G4cout << "test 6" << G4endl;
     
             if (particleName == "opticalphoton") {
             G4cout << "AddDiscreteProcess to OpticalPhoton " << G4endl;
@@ -293,6 +304,12 @@ void PhysicsList::SetCuts()
     SetCutValue(fCutForGamma, "gamma");
     SetCutValue(fCutForElectron, "e-");
     SetCutValue(fCutForPositron, "e+");
+    SetCutValue(1.0*nm, "proton");
+    SetCutValue(1.0*nm, "deuteron");
+    SetCutValue(1.0*nm, "C12");
+    SetCutValue(1.0*um, "C13");
+    SetCutValue(1.0*um, "Be9");
+    SetCutValue(1.0*um, "B10");
     G4cout << "world cuts are set" << G4endl;
 
     //  if( !fTargetCuts ) SetTargetCut(fCutForElectron);

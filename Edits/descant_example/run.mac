@@ -4,9 +4,14 @@
 #/process/em/fluo true
 #/process/em/auger true
 #/process/em/pixe true
+#/DetSys/phys/ConstructOpticalPhysics true
 
 /DetSys/phys/SelectPhysics QGSP_BERT_HP
+#/DetSys/phys/ConstructOpticalPhysics true #placing it here creates seg fault
 /run/initialize
+/process/em/fluo true
+/process/em/auger true
+/process/em/pixe true
 
 ###################### GRIFFIN DETECTOR PROPERTIES ######################################
 #SetCustomShieldsPresent 1 (include suppressors)
@@ -56,7 +61,9 @@
 #/DetSys/det/SetCustomDeadLayer 16 16 0
 #/DetSys/det/addGriffinCustomDetector 16
 
-/DetSys/det/addDescant 70
+/DetSys/phys/ConstructOpticalPhysics true
+
+#/DetSys/det/addDescant 70
 #/DetSys/det/addDescantCart 0 0 0 0
 /DetSys/det/addPlastics 2 1 0
 
@@ -78,10 +85,10 @@
 #/DetSys/app/addGriffinStructure 1
 
 ###################### VERBOSE LEVELS ###################################################
-/control/verbose 1
+/control/verbose 0
 /run/verbose 0
 /event/verbose 0
-/tracking/verbose 0
+/tracking/verbose 1
 
 ###################### RUN VRML VIS #####################################################
 /control/execute vis.mac
@@ -96,4 +103,4 @@
 
 ###################### BEAM ON ##########################################################
 
-/run/beamOn 1
+/run/beamOn 100
