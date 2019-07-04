@@ -127,16 +127,27 @@ const G4VProcess* process = aStep->GetPostStepPoint()->GetProcessDefinedStep();
 	 if(process != NULL && process->GetProcessType() == fHadronic) {
 		G4HadronicProcess* hadrProcess = (G4HadronicProcess*) process;
 		const G4Isotope* target = NULL;
+		if(hadrProcess != NULL){
 		target = hadrProcess->GetTargetIsotope();
 		if(target != NULL) {
 		 	G4cout<<particleName<<", "<<process->GetProcessName()<<" on "<<target->GetName()<<G4endl;
 		 	 targetZ = target->GetZ();
 		}
 	 }
+}
 
-
-
-
+//Assigning energy deposited to various particles
+	if (particleName == "deuteron") eDepD = edep;
+   	else if( particleName == "C12" || particleName == "C13" )  eDepC = edep;
+    	else if( particleName == "proton" )                        eDepP = edep;
+    	else if( particleName == "alpha" )                         eDepA = edep;
+    	else if( particleName == "e-" || particleName == "e+" )    eDepE = edep;
+    	else if( particleName == "neutron" )                       eDepN = edep;
+    	else if( particleName == "Be9" || particleName == "Be10" ) eDepBe = edep;
+    	else if( particleName == "B10" )                           eDepB = edep;
+    	else if( particleName == "triton" )                        eDepT = edep;
+    	else if( particleName == "gamma" )                         eDepG = edep;
+    	else                                                       eDepOther = edep;
 
 
 
@@ -149,11 +160,32 @@ const G4VProcess* process = aStep->GetPostStepPoint()->GetProcessDefinedStep();
       else if (processName == "msc")              processType = 3;
       else if (processName == "Scintillation")    processType = 4;
       else if (processName == "Cerenkov")         processType = 5;
-      else  processType = 0;
-	 } else {
+      else if (processName == "hadElastic")       processType = 6;
+        else if (processName == "neutronInelastic") processType = 7;
+        else if (processName == "nCapture")         processType = 8;
+        else if (processName == "hIoni")            processType = 9;
+        else if (processName == "ionIoni")          processType = 10;
+        else if (processName == "compt")            processType = 11;
+        else if (processName == "phot")             processType = 12;
+        else if (processName == "conv")             processType = 13;
+        else if (processName == "eBrem")            processType = 14;
+        else if (processName == "annihil")          processType = 15;
+        else if (processName == "dInelastic")       processType = 16;
+        else if (processName == "CoulombScat")      processType = 17;
+        else if (processName == "protonInelastic")  processType = 18;
+        else if (processName == "alphaInelastic")   processType = 19;
+        else if (processName == "tInelastic")       processType = 20;
+        else if (processName == "photonNuclear")    processType = 21;
+        else if (processName == "He3Inelastic")     processType = 22;
+        else {                                      processType = 0; 
+            std::cout << "unknown process -> " << processName << std::endl; 
+        }
+    } 
+    else {
 		processType = -1;
-	 }
-
+	}
+	 
+   //stopped updating here !!!!!!  
     evntNb =  fEventAction->GetEventNumber();
 
     //G4cout << "Found Edep = " << edep/keV << " keV in " << volname << G4endl;
