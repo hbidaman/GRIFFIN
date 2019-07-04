@@ -82,7 +82,8 @@
 #/vis/modeling/trajectories/drawByParticleID-0/set e- magenta
 #/vis/modeling/trajectories/drawByParticleID-0/set proton magenta
 #/vis/modeling/trajectories/drawByParticleID-0/set gamma green
-#/vis/modeling/trajectories/drawByParticleID-0/set neutron yellow
+#/vis/modeling/trajectories/drawByParticleID-0/set neutron blue
+#/vis/modeling/trajectories/drawByParticleID-0/set opticalphoton green
 
 # Disable visualization
 #/vis/disable

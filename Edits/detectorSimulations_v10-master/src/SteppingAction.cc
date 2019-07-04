@@ -83,32 +83,62 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
     G4double edep = aStep->GetTotalEnergyDeposit();
     G4double ekin = aStep->GetPreStepPoint()->GetKineticEnergy();
 
-    G4Track* theTrack = aStep->GetTrack();
-    fStepNumber = theTrack->GetCurrentStepNumber();
+G4double eDepD = 0.;
+G4double eDepC = 0.;
+G4double eDepP = 0.;
+G4double eDepA = 0.;
+G4double eDepE = 0.;
+G4double eDepN = 0.;
+G4double eDepOther = 0.;
+G4double eDepBe = 0.;
+G4double eDepB = 0.;
+G4double eDepT = 0.;
+G4double eDepG = 0.;
+
+	G4Track* theTrack = aStep->GetTrack();
+   	G4double stepl = 0.;
+if(theTrack->GetDefinition()->GetPDGCharge() != 0){
+stepl = aStep->GetStepLength();
+} 
+
+	 fStepNumber = theTrack->GetCurrentStepNumber();
 
     // Track particle type in EVERY step
-    //G4cout << "Particle name = " << aStep->GetTrack()->GetParticleDefinition()->GetParticleName() << G4endl;
-    particleName = aStep->GetTrack()->GetParticleDefinition()->GetParticleName();
-    if (particleName == "gamma")         particleType = 1;
-    else if (particleName == "e-")       particleType = 2;
-    else if (particleName == "e+")       particleType = 3;
-    else if (particleName == "proton")   particleType = 4;
-    else if (particleName == "neutron")  particleType = 5;
-    else if (particleName == "deuteron") particleType = 6;
-    else if (particleName == "C12")      particleType = 7;
-    else particleType = 0;
+    
+G4cout << "Particle name = " << aStep->GetTrack()->GetParticleDefinition()->GetParticleName() << G4endl;
 
-	 const G4VProcess* process = aStep->GetPostStepPoint()->GetProcessDefinedStep();
+particleName = aStep->GetTrack()->GetParticleDefinition()->GetParticleName();
+    if (particleName == "gamma")                particleType = 1;
+    else if (particleName == "e-")              particleType = 2;
+    else if (particleName == "e+")              particleType = 3;
+    else if (particleName == "proton")          particleType = 4;
+    else if (particleName == "neutron")         particleType = 5;
+    else if (particleName == "deuteron")                        particleType = 6;
+    else if (particleName == "C12" || particleName == "C13")    particleType = 7;
+    else if (particleName == "alpha")                           particleType = 8;
+    else if (particleName == "Be9" || particleName == "Be10")   particleType = 9;
+    else if (particleName == "B10")             particleType = 10;
+    else if (particleName == "triton")          particleType = 11;
+    else if (particleName == "opticalphoton")   particleType = 12;
+    else particleType = 0;
+	 
+const G4VProcess* process = aStep->GetPostStepPoint()->GetProcessDefinedStep();
 	 G4int targetZ = -1;
 	 if(process != NULL && process->GetProcessType() == fHadronic) {
 		G4HadronicProcess* hadrProcess = (G4HadronicProcess*) process;
 		const G4Isotope* target = NULL;
 		target = hadrProcess->GetTargetIsotope();
 		if(target != NULL) {
-		  //	G4cout<<particleName<<", "<<process->GetProcessName()<<" on "<<target->GetName()<<G4endl;
-		  targetZ = target->GetZ();
+		 	G4cout<<particleName<<", "<<process->GetProcessName()<<" on "<<target->GetName()<<G4endl;
+		 	 targetZ = target->GetZ();
 		}
 	 }
+
+
+
+
+
+
 
     // this can be modified to add more processes
 	 if(theTrack->GetCreatorProcess() != NULL) {
