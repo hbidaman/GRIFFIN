@@ -2939,6 +2939,10 @@ CMakeFiles/Griffinv10.dir/src/DetectionSystemPlastics.cc.o
  /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4Isotope.hh
  /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4IsotopeVector.hh
  /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4Log.hh
+ /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4LogicalSkinSurface.hh
+ /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4LogicalSkinSurface.icc
+ /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4LogicalSurface.hh
+ /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4LogicalSurface.icc
  /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4LogicalVolume.hh
  /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4LogicalVolume.icc
  /opt/cern/geant/geant4.10.02.p01-install/include/Geant4/G4LogicalVolumeStore.hh

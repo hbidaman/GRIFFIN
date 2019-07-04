@@ -23,7 +23,7 @@
 //// Added ///  G4MaterialTable.hh is alreadu elsewhere
 #include "G4OpticalSurface.hh"
 #include "G4OpticalPhysics.hh"
-//#include "G4LogicalSkinSurface.hh"
+#include "G4LogicalSkinSurface.hh"
 ////////
 
 #include "DetectionSystemPlastics.hh"
@@ -189,7 +189,8 @@ scintillatorMPT->AddProperty("FASTCOMPONENT", photonEnergy, scint, nEntries)->Se
 scintillatorMPT->AddProperty("SLOWCOMPONENT", photonEnergy, scint, nEntries)->SetSpline(true); // BC408 emission spectra
 scintillatorMPT->AddProperty("RINDEX", photonEnergy, RIndex1, nEntries);  //refractive index doesnt change with energy
 //note if photon is created outside of energy range it will have no index of refraction
-scintillatorMPT->AddProperty("ABSLENGTH", photonEnergy, absorption, nEntries); //absorption length doesnt change with energy - examples showing it can...
+//scintillatorMPT->AddProperty("ABSLENGTH", photonEnergy, absorption, nEntries); //absorption length doesnt change with energy - examples showing it can...
+scintillatorMPT->AddConstProperty("ABSLENGTH", 380.*cm); //Scintillation Efficiency - characteristic light yield
 scintillatorMPT->AddConstProperty("SCINTILLATIONYIELD", 10000./MeV); //Scintillation Efficiency - characteristic light yield
 scintillatorMPT->AddConstProperty("RESOLUTIONSCALE", 1.0); // broadens the statistical distribution of generated photons
 scintillatorMPT->AddConstProperty("FASTTIMECONSTANT", 2.1*ns); //only one decay constant given
@@ -208,15 +209,26 @@ ScintWrapper->SetModel(glisur);  // no idea
 //polished refers to the wrapping? -> only reflection or absorption, no refraction
 //RINDEX is only for polishedback painted
 //G4LogicalBorderSurface
-ScintWrapper->SetFinish(polishedfrontpainted);  // no idea // can add if its painted
+ScintWrapper->SetFinish(polished);  // no idea // can add if its painted
 //polishedteflonair
 //dielectic_LUT - ie look up table
 ScintWrapper->SetType(dielectric_dielectric);  // no idea  //represents aluminium?
 ScintWrapper->SetPolish(0.9);  // no idea
-ScintWrapper->SetMaterialPropertiesTable(scintillatorMPT);
+//ScintWrapper->SetMaterialPropertiesTable(scintillatorMPT);
 ScintWrapper->DumpInfo();//havent compiled with this yet
 // Can potentially use LookUpTables  -> Learn more about what those are 
 
+G4double reflectivity[num] = {100., 100., 100., 100., 100., 100., 100., 100., 100., 100., 100., 100.};
+assert(sizeof(reflectivity) == sizeof(photonEnergy));
+G4double efficiency[num] = {100., 100., 100., 100., 100., 100., 100., 100., 100., 100., 100., 100.};
+assert(sizeof(efficiency) == sizeof(photonEnergy));
+
+G4LogicalSkinSurface * Surface = new G4LogicalSkinSurface("wrapper2", fPlasticLog, ScintWrapper);
+G4MaterialPropertiesTable * ScintWrapperProperty = new G4MaterialPropertiesTable();
+scintillatorMPT->AddProperty("REFLECTIVITY", photonEnergy, reflectivity, nEntries);  //refractive index doesnt change with energy
+scintillatorMPT->AddProperty("EFFICIENCY", photonEnergy, efficiency, nEntries);  //refractive index doesnt change with energy
+
+ScintWrapper->SetMaterialPropertiesTable(ScintWrapperProperty);
 
 
 G4Box * box = new G4Box("Plastic Detector", fScintillatorLength, fScintillatorHeight, fScintillatorWidth);

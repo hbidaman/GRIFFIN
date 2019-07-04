@@ -210,17 +210,17 @@ void PhysicsList::ConstructOp(G4bool constructOp)
     {
         G4cout << "Building Optical Phyiscs... " << G4endl;
         // G4Cerenkov* cerenkovProcess = new G4Cerenkov("Cerenkov");
-G4cout << "test 1" << G4endl;
+//G4cout << "test 1" << G4endl;
         //   turning on particle-specific scintillation process
         G4Scintillation* scintillationProcess = new G4Scintillation("Scintillation");
        // scintillationProcess->SetScintillationByParticleType(true);
-G4cout << "test 2" << G4endl;
+//G4cout << "test 2" << G4endl;
 
         G4OpAbsorption* absorptionProcess = new G4OpAbsorption();
         G4OpRayleigh* rayleighScatteringProcess = new G4OpRayleigh();
         //G4OpMieHG* mieHGScatteringProcess = new G4OpMieHG();
         G4OpBoundaryProcess* boundaryProcess = new G4OpBoundaryProcess();
-G4cout << "test 3" << G4endl;
+//G4cout << "test 3" << G4endl;
 
         // Use Birks Correction in the Scintillation process
  //       if(!G4Threading::IsWorkerThread()) //joeys original
@@ -230,7 +230,7 @@ G4cout << "test 3" << G4endl;
             G4LossTableManager::Instance()->EmSaturation();
             fScintProcess->AddSaturation(emSaturation);
         }
-G4cout << "test 4" << G4endl;//changed theParticleIterator to particleIterator
+//G4cout << "test 4" << G4endl;//changed theParticleIterator to particleIterator
 	//auto theParticleIterator=GetParticleIterator();//added
         theParticleIterator->reset();
         while( (*theParticleIterator)() )
@@ -238,25 +238,25 @@ G4cout << "test 4" << G4endl;//changed theParticleIterator to particleIterator
             G4ParticleDefinition* particle = theParticleIterator->value();
             G4ProcessManager* pmanager = particle->GetProcessManager();
             G4String particleName = particle->GetParticleName();
-G4cout << "test 5" << G4endl;
+//G4cout << "test 5" << G4endl;
 
             if (scintillationProcess->IsApplicable(*particle)) {
-G4cout << "test 5.5 "<< scintillationProcess->GetScintillationYieldFactor() << G4endl;
+//G4cout << "test 5.5 "<< scintillationProcess->GetScintillationYieldFactor() << G4endl;
          
 	        pmanager->AddProcess(scintillationProcess);
-G4cout << "test 5.6" << G4endl;
+//G4cout << "test 5.6" << G4endl;
                 pmanager->SetProcessOrderingToLast(scintillationProcess, idxAtRest);
-G4cout << "test 5.7" << G4endl;
+//G4cout << "test 5.7" << G4endl;
                 pmanager->SetProcessOrderingToLast(scintillationProcess, idxPostStep);
             }
-G4cout << "test 6" << G4endl;
+//G4cout << "test 6" << G4endl;
     
             if (particleName == "opticalphoton") {
             G4cout << "AddDiscreteProcess to OpticalPhoton " << G4endl;
             pmanager->AddDiscreteProcess(absorptionProcess);
             pmanager->AddDiscreteProcess(rayleighScatteringProcess);
             // pmanager->AddDiscreteProcess(mieHGScatteringProcess);
-            //  pmanager->AddDiscreteProcess(boundaryProcess);
+              pmanager->AddDiscreteProcess(boundaryProcess);
             }
         }
         G4cout << "Done Building Optical Physics" << G4endl;
