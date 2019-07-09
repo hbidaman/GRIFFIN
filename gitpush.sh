@@ -1,5 +1,5 @@
 #!/bin/bash
-scp -r hbidaman@arien.physics.uoguelph.ca:/helioshome/hbidaman/Geant/GRIFFIN/Edits/detectorSimulations_v10-master .
+scp -r hbidaman@arien.physics.uoguelph.ca:/helioshome/hbidaman/Geant/GRIFFIN/Edits/ .
 
 git add .
 # git add -u  (for only adding files already in the index)
