@@ -186,7 +186,8 @@ const G4VProcess* process = aStep->GetPostStepPoint()->GetProcessDefinedStep();
 	}
 	 
    //stopped updating here !!!!!!  
-    evntNb =  fEventAction->GetEventNumber();
+//fEventAction->AddParticleType(particleType);    
+evntNb =  fEventAction->GetEventNumber();
 
     //G4cout << "Found Edep = " << edep/keV << " keV in " << volname << G4endl;
     // example volname
@@ -206,6 +207,39 @@ const G4VProcess* process = aStep->GetPostStepPoint()->GetProcessDefinedStep();
     G4double time2 = point2->GetGlobalTime();
 
     size_t found;
+
+
+//// Setting Lab angle - for differential cross section but also has other applications
+
+G4int nSecondaries = aStep->GetSecondary()->size();
+G4double lab_angle = -1;
+found = volname.find("fPlasticLog");
+if(point2->GetProcessDefinedStep()->GetProcessName() == "hadElastic" && nSecondaries == 1 && fEventAction->GetLabAngle() == -1 && found != G4String::npos) {
+G4ThreeVector momentum_1 = point1->GetMomentum();
+G4ThreeVector momentum_2 = point2->GetMomentum();
+lab_angle = momentum_2.angle(momentum_1);
+fEventAction->SetLabAngle(lab_angle);
+}
+
+
+
+//Counting number of scintillation photons
+G4double numScintPhotons;
+//G4double numCollectedPhotons;
+found = volname.find("fPlasticLog");
+const std::vector<const G4Track*> * secondaries = aStep->GetSecondaryInCurrentStep();
+if (secondaries->size()>0) {
+	for (unsigned int i=0; i<secondaries->size(); ++i) {
+		if (secondaries->at(i)->GetParentID()>0) {
+			if (secondaries->at(i)->GetDynamicParticle()->GetParticleDefinition() == G4OpticalPhoton::OpticalPhotonDefinition()) {
+				if (secondaries->at(i)->GetCreatorProcess()->GetProcessName() == "Scintillation") {
+				fEventAction->CountOneScintPhoton(); //G4cout << "vol of scint " << volname << G4endl;
+				}
+			}
+		}
+	}
+}
+
 
     // Griffin energy deposits ////////////////////////////////////////////////////////////////////////////////
     found = volname.find("germaniumBlock1");

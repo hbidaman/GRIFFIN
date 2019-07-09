@@ -50,6 +50,7 @@ EventAction::EventAction(RunAction* run)
       fRunAct(run),
       fPrintModulo(1000)
 {
+    pLabAngle = -1;
     fNumberOfHits = 0;
     fNumberOfSteps = 0;
 }
@@ -67,7 +68,10 @@ void EventAction::BeginOfEventAction(const G4Event* evt) {
 		G4cout<<"---> Begin of event: "<<fEvtNb<<G4endl;
 	}
 
+SetTotScintPhoton(0);
+
 	ClearVariables();
+pLabAngle = -1;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

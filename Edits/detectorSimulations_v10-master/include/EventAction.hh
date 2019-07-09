@@ -65,6 +65,18 @@ public:
 	void AddStepTracker(G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int trackerZ);
 
     G4bool SpiceTest();
+
+//Scintillation functions
+void CountOneScintPhoton() {++totScintPhotons;};
+G4int GetTotScintPhoton() {return totScintPhotons;};
+void SetTotScintPhoton(G4int total) {totScintPhotons = total;};
+//Lab Angle
+G4double GetLabAngle() {return pLabAngle; };
+void SetLabAngle(G4double angle) {pLabAngle = angle;};
+
+//Add particle type to list
+//void AddParticleType(G4int index) {particleTypes[index] += 1;};
+
 private:
 	RunAction*    fRunAct;
 	HistoManager* fHistoManager;
@@ -92,6 +104,14 @@ private:
 
 	G4int    fPTrackID;
 	G4int    fPParentID;
+
+//Particle Types in Simulation
+//	G4int particleTypes[NUMPARTICLETYPES];
+
+	//Scintillation photons
+	G4int totScintPhotons;
+	//Lab Angle
+	G4double pLabAngle;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
