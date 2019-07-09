@@ -213,7 +213,7 @@ evntNb =  fEventAction->GetEventNumber();
 
 G4int nSecondaries = aStep->GetSecondary()->size();
 G4double lab_angle = -1;
-found = volname.find("fPlasticLog");
+found = volname.find("PlasticDet");
 if(point2->GetProcessDefinedStep()->GetProcessName() == "hadElastic" && nSecondaries == 1 && fEventAction->GetLabAngle() == -1 && found != G4String::npos) {
 G4ThreeVector momentum_1 = point1->GetMomentum();
 G4ThreeVector momentum_2 = point2->GetMomentum();
@@ -221,12 +221,28 @@ lab_angle = momentum_2.angle(momentum_1);
 fEventAction->SetLabAngle(lab_angle);
 }
 
+////Counting hits for efficiencies
+found = volname.find("PlasticDet");
+G4cout << "Found " << found << G4endl;
+if(found != G4String::npos && aStep->GetTrack()->GetParentID() == 0 && aStep->IsFirstStepInVolume() == true) { //adding edep >0 cause no logging... instead of first step, maybe do number of secondaries? like in lab angle?
+G4cout << "Test Volume Name " << volname << G4endl;
+G4cout << "Process Name  " << point2->GetProcessDefinedStep()->GetProcessName() << G4endl;
 
-
+if(point2->GetProcessDefinedStep()->GetProcessName() == "hadElastic") {
+G4cout << "Test Elastic" << G4endl;
+fEventAction->totalCounter();
+fEventAction->elasticCounter();
+}
+if(point2->GetProcessDefinedStep()->GetProcessName() == "nCapture" || point2->GetProcessDefinedStep()->GetProcessName() == "nFission" || point2->GetProcessDefinedStep()->GetProcessName() == "neutronInelastic") {
+G4cout << "Test Inelastic" << G4endl;
+fEventAction->totalCounter();
+fEventAction->inelasticCounter();
+}
+}
 //Counting number of scintillation photons
 G4double numScintPhotons;
 //G4double numCollectedPhotons;
-found = volname.find("fPlasticLog");
+found = volname.find("PlasticDet");
 const std::vector<const G4Track*> * secondaries = aStep->GetSecondaryInCurrentStep();
 if (secondaries->size()>0) {
 	for (unsigned int i=0; i<secondaries->size(); ++i) {

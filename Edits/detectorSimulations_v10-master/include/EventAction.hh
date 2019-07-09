@@ -73,7 +73,13 @@ void SetTotScintPhoton(G4int total) {totScintPhotons = total;};
 //Lab Angle
 G4double GetLabAngle() {return pLabAngle; };
 void SetLabAngle(G4double angle) {pLabAngle = angle;};
-
+//Counting
+void totalCounter() {++TotalCounter;};
+G4int GetTotalCounter() {return TotalCounter;};
+void elasticCounter() {++ElasticCounter;};
+G4int GetElasticCounter() {return ElasticCounter;};
+void inelasticCounter() {++InelasticCounter;};
+G4int GetInelasticCounter() {return InelasticCounter;};
 //Add particle type to list
 //void AddParticleType(G4int index) {particleTypes[index] += 1;};
 
@@ -112,6 +118,10 @@ private:
 	G4int totScintPhotons;
 	//Lab Angle
 	G4double pLabAngle;
+	//Counting
+	G4int TotalCounter;
+	G4int ElasticCounter;
+	G4int InelasticCounter;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

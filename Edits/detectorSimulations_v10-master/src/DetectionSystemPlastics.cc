@@ -239,7 +239,7 @@ G4Box * box = new G4Box("Plastic Detector", fScintillatorLength, fScintillatorHe
     
     //logical volume for scintillator can
     if(fPlasticLog == NULL ) {
-        fPlasticLog = new G4LogicalVolume(box, plasticG4material, "test", 0, 0, 0);
+        fPlasticLog = new G4LogicalVolume(box, plasticG4material, "PlasticDet", 0, 0, 0);
         //fTestcanAlumCasingLog->SetVisAttributes(canVisAtt);
     }
     fAssemblyPlastics->AddPlacedVolume(fPlasticLog, move, rotate);

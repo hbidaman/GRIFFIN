@@ -72,6 +72,9 @@ SetTotScintPhoton(0);
 
 	ClearVariables();
 pLabAngle = -1;
+	TotalCounter = 0;
+	ElasticCounter = 0;
+	InelasticCounter = 0;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

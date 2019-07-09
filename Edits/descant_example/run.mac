@@ -61,7 +61,9 @@
 #/DetSys/det/SetCustomDeadLayer 16 16 0
 #/DetSys/det/addGriffinCustomDetector 16
 
-/DetSys/phys/ConstructOpticalPhysics true
+
+#Uncomment to have optical physics run!
+#/DetSys/phys/ConstructOpticalPhysics true
 
 #/DetSys/det/addDescant 70
 #/DetSys/det/addDescantCart 0 0 0 0
@@ -88,7 +90,7 @@
 /control/verbose 0
 /run/verbose 0
 /event/verbose 0
-/tracking/verbose 1
+/tracking/verbose 3
 
 ###################### RUN VRML VIS #####################################################
 /control/execute vis.mac
